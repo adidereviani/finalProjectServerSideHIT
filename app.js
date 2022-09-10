@@ -4,10 +4,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const mongoose = require('mongoose');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// connect to mongodb database
+const url = `mongodb+srv://dan:123456!@cluster0.8pkwpzt.mongodb.net/test`;
+mongoose.connect(url)
+    .then( () => {
+      console.log('Connected to the database ');
+    })
+    .catch( (err) => {
+      console.error(`Error connecting to the database. n${err}`);
+    });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
