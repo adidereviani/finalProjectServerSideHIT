@@ -7,9 +7,18 @@ const Cost = require("../modules/costs")
 const {log} = require("debug");
 const {json} = require("express");
 
-router.post('/addUser', function(req, res, next){
-    console.log("Current User ID: "+req.query.id);
-    res.render('error');
+// Add User Mechanism
+router.get('/addUser', function(req, res, next){
+    res.render('addUser');
+})
+
+router.post('/addUser/done', function(req, res, next){
+    User.create(req.body).then(function (user){
+        console.log(user.id);
+        console.log(user);
+        res.render('index', {title:user.id})
+    }).catch(next);
+    // res.render('addUser');
 })
 
 router.get('/currentUser', function(req, res, next) {
@@ -20,5 +29,6 @@ router.get('/currentUser', function(req, res, next) {
 router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
+
 
 module.exports = router;

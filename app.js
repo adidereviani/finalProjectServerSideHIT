@@ -8,12 +8,12 @@ const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var servicesRouter = require('./routes/services');
+var apiRouter = require('./routes/api');
 
 var app = express();
 
 // connect to mongodb database
-const url = `mongodb+srv://dan:123456!@cluster0.8pkwpzt.mongodb.net/test`;
+const url = `mongodb+srv://dan:123456!@cluster0.8pkwpzt.mongodb.net/finalProject`;
 mongoose.connect(url)
     .then( () => {
       console.log('Connected to the database ');
@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/services', servicesRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
