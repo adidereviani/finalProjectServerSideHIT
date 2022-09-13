@@ -1,0 +1,17 @@
+form(role='form', method='POST', action='http://localhost:3000/api/makePurchase/done')
+    fieldset
+        legend  Make Purchase
+        label(for='customer_id') Customer ID:
+        br
+        input#customer_id(type='number', name='customer_id', value='123456789')
+        br
+        label(for='product_id') Product ID:
+        br
+        input#product_id(type='number', name='product_id', value='12')
+        br
+        label(for='quantity') Quantity:
+        br
+        input#quantity(type='number', name='quantity', value='1')
+        br
+        br
+        input(type='submit', value='Send Order')

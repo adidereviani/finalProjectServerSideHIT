@@ -4,10 +4,11 @@ const express = require('express');
 const router = express.Router();
 const User = require("../modules/users")
 const Cost = require("../modules/costs")
+const Purchase = require("../modules/purchases")
 const {log} = require("debug");
 const {json} = require("express");
 
-// Add User Mechanism
+// 1. Add User Mechanism
 router.get('/addUser', function(req, res, next){
     res.render('addUser');
 })
@@ -18,9 +19,21 @@ router.post('/addUser/done', function(req, res, next){
         console.log(user);
         res.render('index', {title:user.id})
     }).catch(next);
-    // res.render('addUser');
 })
 
+// 2. Make Purchases Mechanism
+router.get('/makePurchase', function(req, res, next){
+    res.render('makePurchase');
+})
+
+router.post('/makePurchase/done', function(req, res, next){
+    Purchase.create(req.body).then(function (purchase){
+        console.log(purchase);
+        res.render('index', {title:purchase.customer_id})
+    }).catch(next);
+})
+
+// Get Data Mechanism:
 router.get('/currentUser', function(req, res, next) {
     // res.send("current user: "+req.query.id);
     res.render('index');
