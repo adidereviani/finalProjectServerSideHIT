@@ -15,13 +15,24 @@ router.get('/addUser', function(req, res, next){
 
 router.post('/addUser/done', function(req, res, next){
     User.create(req.body).then(function (user){
-        console.log(user.id);
         console.log(user);
-        res.render('index', {title:user.id})
+        res.render('DoneAddUser', {first_name:user.first_name, last_name:user.last_name})
     }).catch(next);
 })
 
-// 2. Make Purchases Mechanism
+// 2. Add Cost Mechanism
+router.get('/addCost', function(req, res, next){
+    res.render('addCost');
+})
+
+router.post('/addCost/done', function(req, res, next){
+    User.create(req.body).then(function (cost){
+        console.log(cost);
+        res.render('DoneAddCost', {product_id:cost.product_id, product_name:cost.name})
+    }).catch(next);
+})
+
+// 3. Make Purchases Mechanism
 router.get('/makePurchase', function(req, res, next){
     res.render('makePurchase');
 })
@@ -29,7 +40,7 @@ router.get('/makePurchase', function(req, res, next){
 router.post('/makePurchase/done', function(req, res, next){
     Purchase.create(req.body).then(function (purchase){
         console.log(purchase);
-        res.render('index', {title:purchase.customer_id})
+        res.render('DoneMakePurchase', {product_id:purchase.product_id, product_name:purchase.product_name})
     }).catch(next);
 })
 

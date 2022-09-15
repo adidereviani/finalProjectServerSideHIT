@@ -1,0 +1,44 @@
+style.
+  fieldset {
+  background-color: #eeeeee;
+  font-size:20px;
+  width: 550px;
+  margin:auto;
+  }
+  legend {
+  background-color: gray;
+  color: white;
+  padding: 5px 10px;
+  }
+  input {
+  margin: 5px;
+  font-size:20px;
+  }
+  form {
+  width: 50vw;
+  margin-left : 25vw;
+  }
+form(role='form' method='POST' action='http://localhost:3000/api/addUser/done')
+  fieldset
+    legend  Add User
+    label(for='product_id') Product ID:
+    input#id(type='number' name='product_id' value='123456789')
+    br
+    br
+    label(for='name') Product Name:
+    input#first_name(type='text' name='name' value='Red Book')
+    br
+    br
+    label(for='description') Description:
+    input#last_name(type='text' name='description' value='this is red book that tall the story of the Red Moon')
+        br
+    br
+    label(for='category') Category:
+    input#first_name(type='text' name='category' value='Books')
+    br
+    br
+    label(for='sum') The price :
+    input#last_name(type='number' name='sum' value='50')
+    br
+    br
+    input(type='submit' value='Add User')

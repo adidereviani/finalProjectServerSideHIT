@@ -6,7 +6,7 @@ const CostSchema = new Schema({
     name : {type: String},
     description : {type: String},
     category : {type: String},
-        sum : {type: Number}
+    sum : {type: Number}
 });
 
 const Cost = mongoose.model('cost', CostSchema);
