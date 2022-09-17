@@ -1,0 +1,36 @@
+style.
+  fieldset {
+  background-color: #eeeeee;
+  font-size:20px;
+  width: 550px;
+  margin:auto;
+  }
+  legend {
+  background-color: gray;
+  color: white;
+  padding: 5px 10px;
+  }
+  input {
+  margin: 5px;
+  font-size:20px;
+  }
+  form {
+  width: 50vw;
+  margin-left : 25vw;
+  }
+
+h1 Report For User #{customer_id}
+br
+ul
+  each val in dictionary
+    li= val
+
+
+//form(role='form' method='POST' action='http://localhost:3000/api/report/done')
+//  fieldset
+//    legend  Report For User #{customer_id}
+//    ul
+//      each val in {dictionary}
+//        li = val
+//        //label(for='first_name') First name:
+//        //label #{val}

@@ -68,9 +68,9 @@ router.post('/report/done', function(req, res, next){
         return new Promise(resolve => {
             if ((month >= 1 && month <= 12) && (year >= 2000))
             {
-                User.find({"id":current_user_id}).then(function(result)
+                User.findOne({"id":current_user_id}).then(function(result)
                 {
-                    resolve();
+                    resolve(result);
                 }).catch((data) =>
                 {
                     res.render('error', {message: "user not found in database"});
@@ -87,54 +87,24 @@ router.post('/report/done', function(req, res, next){
     async function getData()
     {
         const asyncResult = await checkExistanceOfData();
-        // Purchase.find({"customer_id": req.body.customer_id}).then (function(cost)
-        // {
-        //     console.log(cost);
-        //     res.render('index');
-        // }).catch(next)
-
-        User.find({"id":current_user_id}).then(function(result)
+        console.log("asyncResult: "+asyncResult)
+        if (asyncResult == null) // user not found
         {
-            // resolve();
-            console.log(result)
-            if (result.length === 0)
-            {
-                res.render('error', {message: "NO USER"});
-            }
-            else
-            {
-                res.render('error', {message: "ITS OK"});
-            }
-
+            res.render('error', {message: "User was not found in the database"});
+        }
+        else
+        {
+        Purchase.find({"customer_id":current_user_id, 'year':year, 'month': month}).then(function(result)
+        {
+                res.render('ShowReport', {customer_id: current_user_id, dictionary: result});
         }).catch((data) =>
         {
             res.render('error', {message: "user not found in database"});
         });
+        }
+
     }
     getData().catch(next);
-        // 1. check validity of data
-        // if ((report.month >= 1 && report.month <= 12) && (report.year >= 2000))
-        // {
-        //     // 1.1 search for the relevent data in this time for this user
-        //     // need to fetch data from purchases DB
-        //
-        // }
-
-
-
-        // Purchase.find({"purchase.year": report.year,
-        //                     "purchase.month": report.month,
-        //                     "purchase.customer_id": report.id}).toArray(function)
-        // Purchase.find({"purchase.customer_id": report.id}).to
-    // Purchase.find({"customer_id": req.body.customer_id}).then (function(cost)
-    // {
-    //     console.log(cost)
-    //     res.render('index');
-    // }).catch(next)
-
-
-    //     res.render('DoneMakePurchase', {product_id:purchase.product_id, product_name:purchase.product_name})
-    // }).catch(next);
 })
 
 // Test:
