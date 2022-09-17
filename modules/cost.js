@@ -9,5 +9,5 @@ const CostSchema = new Schema({
     sum : {type: Number}
 });
 
-const Cost = mongoose.model('cost', CostSchema);
+const Cost = mongoose.model('costs', CostSchema);
 module.exports = Cost;

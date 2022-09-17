@@ -19,18 +19,15 @@ style.
   margin-left : 25vw;
   }
 
-h1 Report For User #{customer_id}
+h1 Purchases Report For #{customer_id} - #{first_name} #{last_name}
+h2 Month: #{month} Year: #{year}
+h3 Total Sum of All Purchses: #{all_purchases_sum}₪
 br
 ul
   each val in dictionary
-    li= val
-
-
-//form(role='form' method='POST' action='http://localhost:3000/api/report/done')
-//  fieldset
-//    legend  Report For User #{customer_id}
-//    ul
-//      each val in {dictionary}
-//        li = val
-//        //label(for='first_name') First name:
-//        //label #{val}
+    li= "Product Name: " + val.product_name
+    li= "Product ID: " + val.product_id
+    li= "Quantity: " + val.quantity
+    li= "Total Price: " + val.total_sum + "₪"
+    br
+    br

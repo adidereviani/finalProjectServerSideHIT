@@ -18,27 +18,27 @@ style.
   width: 50vw;
   margin-left : 25vw;
   }
-form(role='form' method='POST' action='http://localhost:3000/api/addUser/done')
+form(role='form' method='POST' action='http://localhost:3000/api/addCost/done')
   fieldset
-    legend  Add User
+    legend  Add Cost
     label(for='product_id') Product ID:
-    input#id(type='number' name='product_id' value='123456789')
+    input#product_id(type='number' name='product_id' value='123456789')
     br
     br
     label(for='name') Product Name:
-    input#first_name(type='text' name='name' value='Red Book')
+    input#name(type='text' name='name' value='Red Book')
     br
     br
     label(for='description') Description:
-    input#last_name(type='text' name='description' value='this is red book that tall the story of the Red Moon')
-        br
+    input#description(type='text' name='description' value='this is red book that tall the story of the Red Moon')
+    br
     br
     label(for='category') Category:
-    input#first_name(type='text' name='category' value='Books')
+    input#category(type='text' name='category' value='Books')
     br
     br
     label(for='sum') The price :
-    input#last_name(type='number' name='sum' value='50')
+    input#sum(type='number' name='sum' value='50')
     br
     br
-    input(type='submit' value='Add User')
+    input(type='submit' value='Add Product')

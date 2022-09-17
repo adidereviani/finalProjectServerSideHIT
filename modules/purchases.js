@@ -7,7 +7,8 @@ const PurchaseSchema = new Schema({
     month: {type: Number},
     product_id : {type: Number},
     product_name : {type: String},
-    quantity : {type: Number}
+    quantity : {type: Number},
+    total_sum: {type: Number}
 });
 
 const Purchase = mongoose.model('purchases', PurchaseSchema);

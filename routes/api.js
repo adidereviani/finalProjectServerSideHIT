@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../modules/users")
-const Cost = require("../modules/costs")
+const Cost = require("../modules/cost")
 const Purchase = require("../modules/purchases")
 const {log} = require("debug");
 const {json} = require("express");
@@ -26,9 +26,10 @@ router.get('/addCost', function(req, res, next){
 })
 
 router.post('/addCost/done', function(req, res, next){
-    User.create(req.body).then(function (cost){
+
+    Cost.create(req.body).then(function (cost){
         console.log(cost);
-        res.render('DoneAddCost', {product_id:cost.product_id, product_name:cost.name})
+        res.render('DoneAddCost', {product_id:cost.product_id, name:cost.name})
     }).catch(next);
 })
 
@@ -37,17 +38,78 @@ router.get('/makePurchase', function(req, res, next){
     res.render('makePurchase');
 })
 
-// TODO: check in the cost DB if the product id exist OR/AND user ID exist in the users DB
 router.post('/makePurchase/done', function(req, res, next){
-    // add current date:
-    let currentDate = new Date();
-    req.body['year'] = currentDate.getFullYear();
-    req.body['month'] = currentDate.getMonth();
+    const form_product_id = Number(req.body.product_id)
+    const form_customer_id = Number(req.body.customer_id)
+    console.log("form_customer_id " + form_customer_id + " typeof "+ typeof form_customer_id)
+    console.log("form_product_id " + form_product_id + " typeof "+ typeof form_product_id)
 
-    Purchase.create(req.body).then(function (purchase){
-        console.log(purchase);
-        res.render('DoneMakePurchase', {product_id:purchase.product_id, product_name:purchase.product_name})
-    }).catch(next);
+    // 1. check if product exist in the DB(costs):
+    function checkExistanceOfProduct()
+    {
+        return new Promise(resolve => {
+            Cost.findOne({"product_id":Number(form_product_id)}).then(function(result)
+            {
+                console.log("found product " + result + " bla bla")
+                resolve(result);
+            }).catch((data) =>
+            {
+                res.render('error', {message: "Product not found in database"});
+            });
+        });
+    }
+
+    // 2. check if customer id exist in users DB:
+    function checkExistanceOfCustomer()
+    {
+        return new Promise(resolve => {
+            User.findOne({"id":Number(form_customer_id)}).then(function(result)
+            {
+                console.log("found customer " + result + " bla bla")
+                resolve(result);
+            }).catch((data) =>
+            {
+                res.render('error', {message: "Product not found in database"});
+            });
+        });
+    }
+
+    async function makePurchase()
+    {
+        const foundProduct = await checkExistanceOfProduct();
+        const foundCustomer = await checkExistanceOfCustomer();
+
+        if (foundProduct == null) // Product or customer not found
+        {
+            res.render('error', {message: "Product not exist in the database"});
+        }
+        else if (foundCustomer == null) // Product or customer not found
+        {
+            res.render('error', {message: "Customer not exist in the database"});
+        }
+        else // Customer and Product exists
+        {
+            // add current date:
+            let currentDate = new Date();
+            req.body['year'] = currentDate.getFullYear();
+            req.body['month'] = currentDate.getMonth() + 1; // return values between 0 - 11
+            req.body['total_sum'] = Number(req.body.quantity) * Number(foundProduct.sum)
+
+            Purchase.create(req.body).then(function (purchase){
+                console.log(purchase);
+                res.render('DoneMakePurchase', {customer_id:purchase.customer_id,
+                    year:purchase.year,
+                    month:purchase.month,
+                    product_id:purchase.product_id,
+                    product_name:purchase.product_name,
+                    quantity:purchase.quantity,
+                    total_sum:purchase.total_sum})
+            }).catch(next);
+        }
+
+
+    }
+    makePurchase().catch(next);
 })
 
 // 4. Report
@@ -62,7 +124,6 @@ router.post('/report/done', function(req, res, next){
     const year = req.body.year;
     const current_user_id = req.body.customer_id;
 
-    // TODO: check if the user exists in the database (lines 71-77 is the find function - find function return empty list if the user not found)
     function checkExistanceOfData()
     {
         return new Promise(resolve => {
@@ -94,13 +155,31 @@ router.post('/report/done', function(req, res, next){
         }
         else
         {
-        Purchase.find({"customer_id":current_user_id, 'year':year, 'month': month}).then(function(result)
-        {
-                res.render('ShowReport', {customer_id: current_user_id, dictionary: result});
-        }).catch((data) =>
-        {
-            res.render('error', {message: "user not found in database"});
-        });
+            const first_name = asyncResult.first_name
+            const last_name = asyncResult.last_name
+            console.log(first_name + " " + last_name);
+            Purchase.find({"customer_id":current_user_id,
+                                "year":year,
+                                "month": month}).then(function(result)
+            {
+                // sum all purchases of this customer:
+                let all_purchases_sum = 0
+                result.forEach(function(value)
+                {
+                    all_purchases_sum+=Number(value.total_sum)
+                })
+
+                    res.render('ShowReport', {customer_id: current_user_id,
+                                                        year:year,
+                                                        month:month,
+                                                        first_name: first_name,
+                                                        last_name: last_name,
+                                                        all_purchases_sum: all_purchases_sum,
+                                                        dictionary: result});
+            }).catch((data) =>
+            {
+                res.render('error', {message: "Data not found in database: " + data}); // TODO: is it okay to add 'data' variable to the message?
+            });
         }
 
     }
