@@ -66,34 +66,25 @@ head
     meta(name='viewport' content='width=device-width, initial-scale=1')
     title Cost Manager | About
 .topnav
-    a(href='/api/') About
-    a.active(href='/api/addCost/') Add Product
+    a.active(href='/api/') About
+    a(href='/api/addCost/') Add Product
     a(href='/api/addUser') Add Customer
     a(href='/api/makePurchase') Make Purchase
     a(href='/api/report') Report
-form#expense-entry-form.form-horizontal(role='form' method='POST' action='http://localhost:3000/api/addCost/done')
-    fieldset
-        legend  Add Cost
-        label(for='product_id') Product ID:
-        input#product_id(type='number' name='product_id' value='123456789')
+form#expense-entry-form.form-horizontal
+    u
         br
-        br
-        label(for='name') Product Name:
-        input#name(type='text' name='name' value='Red Book')
-        br
-        br
-        label(for='description') Description:
-        input#description(type='text' name='description' value='this is red book that tall the story of the Red Moon')
-        br
-        br
-        label(for='category') Category:
-        input#category(type='text' name='category' value='Books')
-        br
-        br
-        label(for='sum') The price :
-        input#sum(type='number' name='sum' value='50')
-        br
-        br
-        input(type='submit' value='Add Product')
+        h3.title Team Members:
+    h4.title Dan Averin
+    h4.title Sapir Naugauker
+    h4.title Adi Dereviani
+    br
+    br
+    h5.title
+        | The final project includes the development of REStful Web Services that allow the development of client applications for the final end user.
+    br
+    br
+    h3.title Enjoy!
 footer#main-footer
     p Copyright &copy; 2022 Dan, Sapir and Adi
+

@@ -178,7 +178,7 @@ router.post('/report/done', function(req, res, next){
                                                         dictionary: result});
             }).catch((data) =>
             {
-                res.render('error', {message: "Data not found in database: " + data}); // TODO: is it okay to add 'data' variable to the message?
+                res.render('error', {message: "Data not found in database: " + data});
             });
         }
 
@@ -194,7 +194,7 @@ router.get('/currentUser', function(req, res, next) {
 
 // TODO: Make this a central HTML page with menu to all sub pages/forms
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    res.render('about');
 });
 
 

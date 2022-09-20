@@ -1,24 +1,77 @@
 style.
-  fieldset {
-  background-color: #eeeeee;
-  font-size:20px;
-  width: 550px;
-  margin:auto;
+  body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
   }
-  legend {
-  background-color: gray;
-  color: white;
-  padding: 5px 10px;
+  #expense-entry-form,
+  .expenses-summary {
+    max-width: 600px;
+    padding: 19px 29px 29px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
   }
-  input {
-  margin: 5px;
-  font-size:20px;
+  .form-horizontal .controls {
+    margin-left: 80px;
   }
-  form {
-  width: 50vw;
-  margin-left : 25vw;
+  .form-horizontal .control-label {
+    width: 50px;
   }
-form(role='form' method='POST' action='http://localhost:3000/api/report/done')
+  .input-block-level {
+    width: 220px;
+  }
+  .topnav {
+    background-color: #333;
+    overflow: hidden;
+  }
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  /* Add a color to the active/current link */
+  .topnav a.active {
+    background-color: #16d4f6;
+    color: white;
+  }
+  #main-footer{
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    margin-top: 40px;
+  }
+  .title {
+    text-align: center;
+    color: #74747c;
+    font-family: Tahoma;
+  }
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title Cost Manager | About
+.topnav
+  a(href='/api/') About
+  a(href='/api/addCost/') Add Product
+  a(href='/api/addUser') Add Customer
+  a(href='/api/makePurchase') Make Purchase
+  a.active(href='/api/report') Report
+form#expense-entry-form.form-horizontal(role='form' method='POST' action='http://localhost:3000/api/report/done')
   fieldset
     legend  Get Report For User
     label(for='customer_id') USER ID:
@@ -34,3 +87,5 @@ form(role='form' method='POST' action='http://localhost:3000/api/report/done')
     br
     br
     input(type='submit' value='Get Report')
+footer#main-footer
+  p Copyright &copy; 2022 Dan, Sapir and Adi
