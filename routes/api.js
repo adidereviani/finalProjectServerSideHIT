@@ -39,8 +39,9 @@ router.get('/makePurchase', function(req, res, next){
 });
 
 router.post('/makePurchase/done', function(req, res, next){
-    const form_product_id = Number(req.body.product_id);
-    const form_customer_id = Number(req.body.customer_id);
+    const form_product_id = req.body.product_id;
+    const form_customer_id = req.body.customer_id;
+
     console.log("form_customer_id " + form_customer_id + " typeof "+ typeof form_customer_id);
     console.log("form_product_id " + form_product_id + " typeof "+ typeof form_product_id);
 
@@ -48,7 +49,7 @@ router.post('/makePurchase/done', function(req, res, next){
     function checkExistanceOfProduct()
     {
         return new Promise(resolve => {
-            Cost.findOne({"product_id":Number(form_product_id)}).then(function(result)
+            Cost.findOne({"product_id":form_product_id}).then(function(result)
             {
                 console.log("found product " + result + " bla bla");
                 resolve(result);
@@ -63,7 +64,7 @@ router.post('/makePurchase/done', function(req, res, next){
     function checkExistanceOfCustomer()
     {
         return new Promise(resolve => {
-            User.findOne({"id":Number(form_customer_id)}).then(function(result)
+            User.findOne({"id":form_customer_id}).then(function(result)
             {
                 console.log("found customer " + result + " bla bla");
                 resolve(result);
@@ -93,7 +94,8 @@ router.post('/makePurchase/done', function(req, res, next){
             let currentDate = new Date();
             req.body['year'] = currentDate.getFullYear();
             req.body['month'] = currentDate.getMonth() + 1; // return values between 0 - 11
-            req.body['total_sum'] = Number(req.body.quantity) * Number(foundProduct.sum);
+            req.body['total_sum'] = req.body.quantity * foundProduct.sum;
+
 
             Purchase.create(req.body).then(function (purchase){
                 console.log(purchase);
@@ -164,7 +166,7 @@ router.post('/report/done', function(req, res, next){
                 let all_purchases_sum = 0;
                 result.forEach(function(value)
                 {
-                    all_purchases_sum+=Number(value.total_sum);
+                    all_purchases_sum+=value.total_sum;
                 })
 
                     res.render('ShowReport', {customer_id: current_user_id,
